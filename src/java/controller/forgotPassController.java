@@ -5,6 +5,7 @@
  */
 package controller;
 
+import DAO.HospitalDAO;
 import DAO.SendEmail;
 import DAO.UserDao;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Hospital;
 import model.User;
 
 /**
@@ -43,7 +45,7 @@ public class forgotPassController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet forgotPassController</title>");            
+            out.println("<title>Servlet forgotPassController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet forgotPassController at " + request.getContextPath() + "</h1>");
@@ -78,24 +80,48 @@ public class forgotPassController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            String email = request.getParameter("email");
-            UserDao db = new UserDao();
-            User u = db.findUserByEmail(email);
-            if (u != null) {
-                String otp = SendEmail.RandGeneratedStr(4);
-                new SendEmail("Confirm OTP Code", email, otp).send();
-                HttpSession session = request.getSession();
-                session.setAttribute("ConfirmChangeP", otp);
-                session.setAttribute("emailChangeP", email);
-                request.getRequestDispatcher("confirmChangePass").forward(request, response);
+
+        String email = request.getParameter("email");
+        String optionRole = request.getParameter("optionRole");
+        if (optionRole.equals("optionuser")) {
+            try {
+                UserDao db = new UserDao();
+                User u = db.findUserByEmail(email);
+                if (u != null) {
+                    String otp = SendEmail.RandGeneratedStr(4);
+                    new SendEmail("Confirm OTP Code", email, otp).send();
+                    HttpSession session = request.getSession();
+                    session.setAttribute("ConfirmChangeP", otp);
+                    session.setAttribute("emailChangeP", email);
+                    request.getSession().setAttribute("optionRole", "optionuser");
+                    request.getRequestDispatcher("confirmChangePass").forward(request, response);
+                } else {
+                    request.getSession().setAttribute("WrongEmail", "Email do not found");
+                    response.sendRedirect("login.jsp#form2");
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(forgotPassController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            else{
-                request.getSession().setAttribute("WrongEmail", "Email do not found");
-                response.sendRedirect("login.jsp#form2");
+        } else {
+            try {
+                HospitalDAO hd = new HospitalDAO();
+                Hospital hospital = hd.findHospital(email);
+                if (hospital != null) {
+                    String otp = SendEmail.RandGeneratedStr(4);
+                    new SendEmail("Confirm OTP Code", email, otp).send();
+                    HttpSession session = request.getSession();
+                    session.setAttribute("ConfirmChangeP", otp);
+                    session.setAttribute("emailChangeP", email);
+                    request.getSession().setAttribute("optionRole", "optionhospital");
+                    request.getRequestDispatcher("confirmChangePass").forward(request, response);
+                } else {
+                    request.getSession().setAttribute("WrongEmail", "Email do not found");
+                    response.sendRedirect("login.jsp#form2");
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(forgotPassController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(forgotPassController.class.getName()).log(Level.SEVERE, null, ex);
+
         }
     }
 

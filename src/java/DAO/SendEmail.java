@@ -52,7 +52,7 @@ public class SendEmail {
             msg.setFrom(new InternetAddress(username));
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
             msg.setSubject(subject);
-            msg.setText(message);
+            msg.setContent(message, "text/html");
             System.out.println("check");
             Transport.send(msg);
             System.out.println("Email sent successfully.");

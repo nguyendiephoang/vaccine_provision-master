@@ -6,7 +6,7 @@
 package controller;
 
 import DAO.HospitalDAO;
-import DAO.UserDao;
+import DAO.SendEmail;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -16,14 +16,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author DELL
  */
-@WebServlet(name = "newPass", urlPatterns = {"/newPass"})
-public class newPass extends HttpServlet {
+@WebServlet(name = "resetPasswordHospital", urlPatterns = {"/resetPasswordHospital"})
+public class resetPasswordHospital extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +41,10 @@ public class newPass extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet newPass</title>");
+            out.println("<title>Servlet resetPasswordHospital</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet newPass at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet resetPasswordHospital at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -77,29 +76,19 @@ public class newPass extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String password = request.getParameter("password");
-        String cpassword = request.getParameter("cpassword");
-        HttpSession session = request.getSession();
-        String emailChangeP = (String) session.getAttribute("emailChangeP");
-        String optionRole = (String) session.getAttribute("optionRole");
-        if (password.equals(cpassword)) {
-            try {
-                if (optionRole.equals("optionuser")) {
-                    UserDao db = new UserDao();
-                    db.updateUser(password, emailChangeP);
-                } else {
-                    HospitalDAO hd = new HospitalDAO();
-                    hd.updateHospital(password, emailChangeP);
-                }
-
-                request.getSession().removeAttribute("emailChangeP");
-                request.getSession().removeAttribute("optionRole");
-                response.sendRedirect("login.jsp");
-            } catch (Exception ex) {
-                Logger.getLogger(newPass.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            response.sendRedirect("newpass.jsp");
+        try {
+            String idUser = request.getParameter("idUser");
+            String email = request.getParameter("email");
+            String newpass = SendEmail.RandGeneratedStr(8);
+            new SendEmail("Your new password:  ", email, newpass).send();
+            HospitalDAO ud = new HospitalDAO();
+            ud.updateHospital(newpass, email);
+            request.getSession().setAttribute("resetPass", "Password was successfully changed");
+            response.sendRedirect("hospital_manager.jsp");
+            
+            
+        } catch (Exception ex) {
+            Logger.getLogger(resetPasswordHospital.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

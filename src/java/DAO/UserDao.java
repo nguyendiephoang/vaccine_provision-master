@@ -342,6 +342,7 @@ public class UserDao extends DBContext {
         }
         return 1;
     }
+    
 
     public int updateUser(int idUser, String name, String identification, Date dob, boolean gender, String phone, String email, String healthInsurance) throws Exception {
         String identificationmd5 = en.encryptCCCDTo(identification);
@@ -373,7 +374,24 @@ public class UserDao extends DBContext {
         }
         return 1;
     }
-
+    
+    
+    public int deleteUser(String idUser) throws Exception {
+        try {
+            String sql = "DELETE FROM [dbo].[User]\n"
+                    + "      WHERE idUser = ?";
+            conn = new DBContext().getConnection();
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setString(1, idUser);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
+        return 1;
+    }
+    
+    
 //    public int totalUser() {
 //        try {
 //            String sql = "select count([idUser]) as count from [user] ";
@@ -391,10 +409,10 @@ public class UserDao extends DBContext {
 //    }
     public static void main(String[] args) {
         UserDao us = new UserDao();
-//        List<User> t = us.getAllUser();
-//        for (User user : t) {
-//            System.out.println(user);
-//        }
+        List<User> t = us.getAllUser();
+        for (User user : t) {
+            System.out.println(user);
+        }
 //        String email = "nguyendiephoang111@gmail.com";
 //        try {
 //            User t = us.findUserByEmail(email);
@@ -403,13 +421,13 @@ public class UserDao extends DBContext {
 //            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 
-        int id = 1;
-        try {
-            User t = us.findUserByID(id);
-            System.out.println(t);
-        } catch (Exception ex) {
-            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        int id = 1;
+//        try {
+//            User t = us.findUserByID(id);
+//            System.out.println(t);
+//        } catch (Exception ex) {
+//            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
 
         

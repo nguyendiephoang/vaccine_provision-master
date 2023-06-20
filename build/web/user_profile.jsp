@@ -78,7 +78,7 @@
             <div id="cssmenu" class="animated">
                 <div class="uni-icons-close"><i class="fa fa-times" aria-hidden="true"></i></div>
                 <ul class="nav navbar-nav animated">
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.jsp">Home</a></li>
                     <li class="has-sub"><a href='#'>List Vaccine</a>
                         <ul>
                             <li><a href="list_of_vaccine.html">List Vaccine</a></li>
@@ -122,7 +122,7 @@
                                             <nav class="main-navigation uni-menu-text">
                                                 <div class="cssmenu">
                                                     <ul>
-                                                        <li><a href="index.html">Home</a></li>
+                                                        <li><a href="index.jsp">Home</a></li>
                                                         <li class="has-sub"><a href='#'>List Vaccine</a>
                                                             <ul>
                                                                 <li><a href="list_of_vaccine.html">List Vaccine</a></li>
@@ -220,16 +220,19 @@
                                                                 <!--form change profile-->
                                                                 <form class="form" action="userProfile" method="post"
                                                                       id="infor">
+
                                                                     <%
-                                                                        String updateinforsucess = (String) request.getSession().getAttribute("updateinforsucess");
-                                                                        if (updateinforsucess != null) {
+                                                                        if (session.getAttribute("updateinforsucess") != null) {
                                                                     %>
-                                                                    <div  style="color: blue"><%= updateinforsucess%></div>
+                                                                    <script>
+                                                                        alert("<%= session.getAttribute("updateinforsucess")%>");
+                                                                    </script>
                                                                     <%
-                                                                            // Xóa thuộc tính session để tránh hiển thị lại cảnh báo
-                                                                            request.getSession().removeAttribute("updateinforsucess");
+                                                                    // Xóa session để không hiển thị lại khi người dùng tải lại trang
+                                                                            session.removeAttribute("updateinforsucess");
                                                                         }
                                                                     %>
+                                                                    
                                                                     <div class="form-group">
                                                                         <div class="col-sm-12">
                                                                             <label for="first_name">
@@ -336,7 +339,7 @@
                                                                             <button class="btn btn-lg btn-success"
                                                                                     type="submit">
                                                                                 <i class="glyphicon glyphicon-ok-sign"></i>
-                                                                                Edit
+                                                                                Update
                                                                             </button>
                                                                         </div>
                                                                     </div>
@@ -394,16 +397,21 @@
                                                 <div class="tab-content clearfix">
                                                     <div class="tab-pane active" id="1a">
                                                         <h3 class="my-4">Change Password</h3>
+
                                                         <%
-                                                            String changpasssucess = (String) request.getSession().getAttribute("changpasssucess");
-                                                            if (changpasssucess != null) {
+                                                            if (session.getAttribute("changpasssucess") != null) {
                                                         %>
-                                                        <div  style="color: blue"><%= changpasssucess%></div>
+                                                        <script>
+                                                            alert("<%= session.getAttribute("changpasssucess")%>");
+                                                        </script>
                                                         <%
-                                                                // Xóa thuộc tính session để tránh hiển thị lại cảnh báo
-                                                                request.getSession().removeAttribute("changpasssucess");
+                                                                // Xóa session để không hiển thị lại khi người dùng tải lại trang
+                                                                session.removeAttribute("changpasssucess");
                                                             }
                                                         %>
+
+
+
                                                         <form class="form" action="updatePass" method="post"
                                                               id="changepass">
                                                             <div class="form-group">
@@ -464,7 +472,7 @@
                                                                     <button class="btn btn-lg btn-success"
                                                                             type="submit">
                                                                         <i class="glyphicon glyphicon-ok-sign"></i>
-                                                                        Edit
+                                                                        Update
                                                                     </button>
 
                                                                 </div>

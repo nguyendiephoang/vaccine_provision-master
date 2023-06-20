@@ -8,7 +8,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Document</title>
-        <link rel="stylesheet" href="assets/css/manager.css">
+        <link href="assets/css/manager.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="bootstrap-4.0.0-dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="bootstrap-4.0.0-dist/css/bootstrap-grid.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">

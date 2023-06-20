@@ -75,29 +75,35 @@
                     <div class="modal-body" >
                         <form id="form2" action="forgotPassController" method="POST">
                             <%
-                                        String WrongEmail = (String) request.getSession().getAttribute("WrongEmail");
-                                        if (WrongEmail != null) {
-                                    %>
-                                    <div class="alert alert-warning" style="color: red"><%= WrongEmail%></div>
-                                    <%
-                                            // Xóa thuộc tính session để tránh hiển thị lại cảnh báo
-                                            request.getSession().removeAttribute("WrongEmail");
-                                        }
-                                    %>
+                                String WrongEmail = (String) request.getSession().getAttribute("WrongEmail");
+                                if (WrongEmail != null) {
+                            %>
+                            <div class="alert alert-warning" style="color: red"><%= WrongEmail%></div>
+                            <%
+                                    // Xóa thuộc tính session để tránh hiển thị lại cảnh báo
+                                    request.getSession().removeAttribute("WrongEmail");
+                                }
+                            %>
                             <div class="form-row">                               
                                 <div class="form-group col-sm-7">
 
                                     <label class="sr-only" for="exampleInputEmail3">Email address</label>
                                     <input type="email" name="email" class="form-control form-control-sm mr-1" id="exampleInputEmail3"
                                            placeholder="Enter email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Wrong format email">
+
                                 </div>
 
                             </div>
                             <div class="form-row">
+                                <select name="optionRole" >
+                                    <option value="optionuser" >User</option>
+                                    <option value="optionhospital" >Hospital</option>
+                                </select>
                                 <button type="button" class="btn btn-secondary btn-sm ml-auto"
                                         data-dismiss="modal">Cancel</button>
                                 <button type="submit" class="btn  btn-sm ml-1"  style="background: linear-gradient(-135deg, #c850c0, #4158d0); color: white;">Continue</button>
                             </div>
+                            
                         </form>
                     </div>
                 </div>

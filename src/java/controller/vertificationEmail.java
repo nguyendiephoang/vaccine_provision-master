@@ -90,7 +90,7 @@ public class vertificationEmail extends HttpServlet {
                 request.getSession().removeAttribute("email");
                 request.getSession().removeAttribute("healthInsurance");
 //System.out.println(name+ pass+ identification+ dob+ gender+ phone+ email+ healthInsurance);
-                response.sendRedirect("home.jsp");
+                response.sendRedirect("index.jsp");
                 return;
             } catch (Exception ex) {
                 Logger.getLogger(vertificationEmail.class.getName()).log(Level.SEVERE, null, ex);

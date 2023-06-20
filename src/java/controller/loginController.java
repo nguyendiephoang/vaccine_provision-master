@@ -5,8 +5,8 @@
  */
 package controller;
 
+import DAO.HospitalDAO;
 import DAO.UserDao;
-import DAO.hospitalDao_1;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -44,12 +44,12 @@ public class loginController extends HttpServlet {
 
         if (optionRole.equals("optionhospital")) {
             try {
-                hospitalDao_1 hd = new hospitalDao_1();
+                HospitalDAO hd = new HospitalDAO();
                 Hospital hospital = hd.findHospital(email, pass);
                 if (hospital != null) {
                     request.getSession().setAttribute("id", hospital.getIdBV());
                     request.getSession().setAttribute("role", 3);
-                    response.sendRedirect("home.jsp");
+                    response.sendRedirect("hospital.html");
                     
                 } else {
                     request.getSession().setAttribute("alertMessage", "Email Or Password Wrong");
@@ -68,7 +68,7 @@ public class loginController extends HttpServlet {
                     if (user.getRole() == 1) {
                         // 1 la user
                         // 2 la admin
-                        response.sendRedirect("home.jsp");
+                        response.sendRedirect("home1.jsp");
                     } else if (user.getRole() == 2) {
                         response.sendRedirect("login.jsp");
                     }
